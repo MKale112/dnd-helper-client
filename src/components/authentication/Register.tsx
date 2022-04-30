@@ -5,7 +5,10 @@ import { Button, FormLabel, Radio, RadioGroup, Input, FormControl } from '@chakr
 // REDUX
 import { bindActionCreators } from 'redux';
 import { useAppDispatch, useAppSelector } from '../../state/hooks';
-import { ActionCreators } from '../../state';
+import { AlertActionCreators, AuthActionCreators } from '../../state';
+// ALERT
+import { AlertType } from '../../state/actions/alert';
+import { FireAlerts } from '../layout/Alert';
 // Types
 import { TGender } from '../../types/types';
 
@@ -21,9 +24,11 @@ export const Register: FC = () => {
   const [formData, setFormData] = useState({} as FormData);
   const { password, passwordRedo, name, email, gender } = formData;
   const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const { alert } = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
-  const { register } = bindActionCreators(ActionCreators, dispatch);
+  const { register } = bindActionCreators(AuthActionCreators, dispatch);
+  const { setAlert } = bindActionCreators(AlertActionCreators, dispatch);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,11 +38,11 @@ export const Register: FC = () => {
     event.preventDefault();
     if (password !== passwordRedo) {
       // fire an alert in this line
+      setAlert(`Your passwords don't match!`, AlertType.ERROR);
       setFormData({ ...formData, password: '', passwordRedo: '' });
     } else {
       try {
         await register({ name, email, password, gender });
-        setFormData({} as FormData);
       } catch (err) {
         // console.error(err);
         throw Error;
@@ -53,6 +58,7 @@ export const Register: FC = () => {
         <form onSubmit={handleSubmit}>
           <Stack spacing='24px'>
             <Heading mb='5px'>Make an account!</Heading>
+            {alert && <FireAlerts alerts={alert} />}
             <Stack spacing={3}>
               <FormControl isRequired>
                 <FormLabel>Username</FormLabel>

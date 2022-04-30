@@ -26,11 +26,11 @@ const SocialButton: FC<{ children: ReactNode; label: string; href: string }> = (
 );
 
 const Footer: FC = () => (
-  <Box bg={useColorModeValue('gray.50', 'gray.900')} color={useColorModeValue('gray.700', 'gray.200')}>
+  <Box bg={useColorModeValue('gray.50', 'gray.900')} color={useColorModeValue('gray.700', 'gray.200')} w='full'>
     <Container
       as={Stack}
       maxW='6xl'
-      py='4'
+      py='2'
       direction={{ base: 'column', md: 'row' }}
       spacing='4'
       justify={{ base: 'center', md: 'space-between' }}

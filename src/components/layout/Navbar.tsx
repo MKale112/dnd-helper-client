@@ -10,23 +10,22 @@ import {
   MenuButton,
   MenuList,
   MenuDivider,
+  Heading,
   // useDisclosure,
   useColorModeValue,
   Stack,
   useColorMode,
   Center,
-  StackDivider,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { bindActionCreators } from 'redux';
 import { useAppSelector, useAppDispatch } from '../../state/hooks';
-import { ActionCreators } from '../../state';
+import { AuthActionCreators } from '../../state';
 import Logo from './Logo';
 
 interface TLinks {
   label: string;
   link: string;
-  style?: string;
 }
 
 interface NavlinkProps {
@@ -37,6 +36,7 @@ const Navlinks: FC<NavlinkProps> = ({ links }) => {
   const colorVal = useColorModeValue('gray.200', 'gray.700');
   const navigation = links.map((link) => (
     <Link
+      key={link.label}
       as={RouterLink}
       to={link.link}
       px='5'
@@ -60,7 +60,7 @@ export const Nav: FC = () => {
 
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const { logout } = bindActionCreators(ActionCreators, dispatch);
+  const { logout } = bindActionCreators(AuthActionCreators, dispatch);
 
   const guestLinks = [
     { label: 'Campaigns', link: '/campaignbank' },
@@ -78,9 +78,11 @@ export const Nav: FC = () => {
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px='4'>
         <Flex h='20' alignItems='center' justifyContent='space-between'>
-          <Box>
+          <Stack direction='row'>
+            {/* make this whole stack a link pointing to 'home' or 'dashboard' */}
             <Logo />
-          </Box>
+            <Heading>D&D Helper</Heading>
+          </Stack>
 
           <Flex alignItems='center'>
             <Stack direction='row' spacing='2'>
@@ -105,8 +107,7 @@ export const Nav: FC = () => {
                     </Center>
                     <br />
                     <MenuDivider />
-                    <Stack divider={<StackDivider borderColor='gray.200' />}>
-                      {/* <Navlinks links={avatarLinks} /> */}
+                    <Stack>
                       <Link
                         as={RouterLink}
                         to='/account-settings'

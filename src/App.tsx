@@ -1,26 +1,36 @@
-import React, { FC } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { FC, useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 // REDUX
-import { Provider } from 'react-redux';
-import store from './state/store';
-//
+import { bindActionCreators } from 'redux';
+import { useAppSelector, useAppDispatch } from './state/hooks';
+import { UsersActionCreators } from './state';
+import setAuthToken from './utils/setAuthToken';
+// COMPONENTS
 import './App.css';
 import Nav from './components/layout/Navbar';
-import Landing from './pages/Landing';
-import { Routes } from './components/routing/Routes';
 import Footer from './components/layout/Footer';
+import { PublicRoutes, PrivateRoutes } from './components/routing';
 
-const App: FC = () => (
-  <Provider store={store}>
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+const App: FC = () => {
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const { loadUser } = bindActionCreators(UsersActionCreators, dispatch);
+
+  useEffect(() => {
+    loadUser();
+  }, []);
+
+  return (
     <Router>
       <Nav />
-      <Switch>
-        <Route exact path='/' component={Landing} />
-        <Route component={Routes} />
-      </Switch>
+      {isAuthenticated ? <PrivateRoutes /> : <PublicRoutes />}
       <Footer />
     </Router>
-  </Provider>
-);
+  );
+};
 
 export default App;

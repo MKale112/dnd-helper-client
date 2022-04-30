@@ -1,13 +1,18 @@
-import React from 'react';
-import { Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from '@chakra-ui/react';
+import React, { FC } from 'react';
+import { Alert, AlertIcon, AlertDescription } from '@chakra-ui/react';
+import { Alerts } from '../../state/reducers/alert';
 
-const ChakraAlert = (msg:string, status:string) => {
-  <Alert status="error">
-    <AlertIcon />
-    <AlertTitle mr={2}>{status.toUpperCase()}</AlertTitle>
-    <AlertDescription>{msg}</AlertDescription>
-    {/* <CloseButton position='absolute' right='8px' top='8px' /> */}
-  </Alert>;
+interface Props {
+  alerts: Alerts[];
+}
+
+export const FireAlerts: FC<Props> = ({ alerts }) => {
+  const alertList = alerts.map((alert) => (
+    <Alert id={alert.id} status={alert.alertType} w='auto'>
+      <AlertIcon />
+      <AlertDescription fontSize={[8, 10, 12]}>{alert.msg}</AlertDescription>
+    </Alert>
+  ));
+
+  return <>{alertList}</>;
 };
-
-export default ChakraAlert;

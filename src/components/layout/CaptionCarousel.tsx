@@ -7,7 +7,7 @@ import {
   Heading,
   Text,
   Container,
-  useColorModeValue,
+  // useColorModeValue,
 } from '@chakra-ui/react';
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import Slider from 'react-slick';
@@ -49,13 +49,15 @@ export const CaptionCarousel: FC = () => {
       id: 2,
       title: 'Join a campaign,',
       text: 'make a character and embark on an adventure with your Dungeon Master!',
-      imageSrc: 'https://images.unsplash.com/photo-1547638382-ed227146ab88',
+      imageSrc: '',
+      // 'https://images.unsplash.com/photo-1547638382-ed227146ab88',
     },
     {
       id: 3,
       title: 'I dunno what to write anymore,',
       text: 'this is the 3rd slide alrady, just sign up',
-      imageSrc: 'https://i.redd.it/9emnsrxtsrs61.png',
+      imageSrc: '',
+      // 'https://i.redd.it/9emnsrxtsrs61.png',
     },
   ];
 

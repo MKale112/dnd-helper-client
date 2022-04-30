@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import CaptionCarousel from '../components/layout/CaptionCarousel';
+import Features from '../components/layout/Features';
 
 const Landing: FC = () => (
   <>
     <CaptionCarousel />
-    {/* <Section /> */}
+    <Features />
     {/* <Showing /> */}
     {/* <CallToAction /> */}
   </>

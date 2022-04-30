@@ -1,17 +1,20 @@
 import axios, { AxiosResponse } from 'axios';
-import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { RootState } from '../store';
+// AUTH
 import { ActionType } from '../action-types/auth';
 import { AuthAction } from '../actions/auth';
-import { TUserInput, TLoginForm, TUser } from '../../types/types';
-import { loadUser } from './users';
-import { setAlert } from './alert';
-import { RootState } from '../store';
+import { TUserInput, TLoginForm } from '../../types/types';
 import { ValidationError } from '../../types/error';
+// LOAD USER
+import { loadUser } from './users';
+// ALERT
+import { setAlert } from './alert';
+import { AlertType } from '../actions/alert';
 
 export const register =
   ({ name, email, password, gender }: TUserInput) =>
-  async (dispatch: ThunkDispatch<RootState, void, AuthAction<string | TUser>>): Promise<void> => {
+  async (dispatch: ThunkDispatch<RootState, void, AuthAction<string>>): Promise<void> => {
     const body = JSON.stringify({ name, email, password, gender });
     const config = {
       headers: { 'Content-Type': 'application/json' },
@@ -23,18 +26,17 @@ export const register =
       dispatch(loadUser());
     } catch (err: any) {
       const errors = err.response.data.errors as ValidationError[];
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, AlertType.ERROR)));
       dispatch({
         type: ActionType.REGISTER_FAIL,
       });
-      // console.error(err);
       throw Error;
     }
   };
 
 export const login =
   ({ email, password }: TLoginForm) =>
-  async (dispatch: ThunkDispatch<RootState, void, AnyAction>): Promise<void> => {
+  async (dispatch: ThunkDispatch<RootState, void, AuthAction<string>>): Promise<void> => {
     const body = JSON.stringify({ email, password });
     const config = {
       headers: { 'Content-Type': 'application/json' },
@@ -42,20 +44,18 @@ export const login =
 
     try {
       const res = (await axios.post('/api/auth', body, config)) as AxiosResponse<{ token: string }>;
-      // if (!res.data.token) {
-      //   dispatch({ type: ActionType.LOGIN_FAIL });
-      // }
       dispatch({ type: ActionType.LOGIN_SUCCESS, payload: res.data.token });
       dispatch(loadUser());
     } catch (err: any) {
       const errors = err.response.data.errors as ValidationError[];
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, AlertType.ERROR)));
       dispatch({ type: ActionType.LOGIN_FAIL });
-      // console.error(err);
       throw Error;
     }
   };
 
-export const logout = () => (dispatch: any) => {
-  dispatch({ type: ActionType.LOGOUT });
-};
+export const logout =
+  () =>
+  (dispatch: any): void => {
+    dispatch({ type: ActionType.LOGOUT });
+  };

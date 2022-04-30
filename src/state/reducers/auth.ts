@@ -25,7 +25,7 @@ export default function (state = initialState, action: AuthAction<string | TUser
       localStorage.setItem('token', payload as string);
       return { ...state, token: payload as string, isAuthenticated: true, isLoading: false };
     case ActionType.LOAD_USER:
-      return { ...state, user: payload as TUser };
+      return { ...state, user: payload as TUser, isAuthenticated: true, isLoading: false };
     case ActionType.AUTH_ERROR:
     case ActionType.REGISTER_FAIL:
     case ActionType.LOGIN_FAIL:

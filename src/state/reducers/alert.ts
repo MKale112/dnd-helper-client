@@ -1,15 +1,15 @@
 import { ActionType } from '../action-types/alert';
-import { AlertAction } from '../actions/alert';
+import { AlertAction, AlertType } from '../actions/alert';
 
-interface Alerts {
+export interface Alerts {
   id: string;
-  msg: string;
-  alertType: string;
+  msg?: string;
+  alertType?: AlertType;
 }
 
 const initialState: Alerts[] = [];
 
-export default function (state = initialState, action: AlertAction) {
+export default function (state = initialState, action: AlertAction): Alerts[] {
   const { type, payload } = action;
 
   switch (type) {

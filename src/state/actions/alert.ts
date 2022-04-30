@@ -1,10 +1,10 @@
 import { ActionType } from '../action-types/alert';
 
 export enum AlertType {
-  INFO = "info",
-  SUCCESS = "success",
-  ERROR = "error",
-  WARNING = "warning",
+  INFO = 'info',
+  SUCCESS = 'success',
+  ERROR = 'error',
+  WARNING = 'warning',
 }
 
 export interface AlertAction {
