@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useState } from 'react';
-import { Formik, FormikProps, FormikConfig, FormikValues, Form, FormikHelpers, Field, ErrorMessage } from 'formik';
+import { Formik, FormikConfig, FormikValues, Form, FormikState } from 'formik';
 import * as yup from 'yup';
 import {
   Modal,
@@ -10,54 +10,98 @@ import {
   ModalBody,
   Button,
   Spinner,
+  Center,
+  Heading,
+  ModalCloseButton,
 } from '@chakra-ui/react';
 import { CharacterCreationInput, CharacterGender, CharacterRace } from '../../types/character';
-import CreationSuccess from './CreationSuccess';
-import InputField from './FormModels/InputField';
-import SelectField from './FormModels/SelectField';
+import CharacterBasicInfoForm from './Forms/CharacterBasicInfoForm';
+import CharacterAttributesForm from './Forms/CharacterAttributesForm';
+import CharacterMiscForm from './Forms/CharacterMiscForm';
 
-// const steps = ['Name, Race and Class', 'Your Attributes', 'Skills ', 'Misc.'];
-const steps = ['Name, Race and Class'];
+const steps = ['Name, Race and Class', 'Character Attributes', 'Misc.'];
+
+const errorMessages = {
+  fieldRequired: 'Field is required',
+  notNegative: 'Field cannot have negative value',
+  isNum: 'Field must be a number',
+  minVal: 'This stat can have a minimum value of 3',
+  maxVal: 'This stat can have a maximum value of 30',
+  min: 'Field must have minimal value of 10',
+  levels: 'Levels go from 1 to 20!',
+};
 
 const validationSchema = [
   yup.object().shape({
-    characterName: yup.string().required(),
-    race: yup.string().required(),
-    // class: yup.string().required(),
+    characterName: yup.string().required(errorMessages.fieldRequired),
+    gender: yup.string().required(errorMessages.fieldRequired),
+    race: yup.string().required(errorMessages.fieldRequired),
+    characterClass: yup.string().required(errorMessages.fieldRequired),
+    level: yup.number().min(1, errorMessages.levels).max(20, errorMessages.levels),
   }),
-  yup.object().shape({
-    strength: yup.number().min(3).max(30).required(),
-    dexterity: yup.number().min(3).max(30).required(),
-    constitution: yup.number().min(3).max(30).required(),
-    intelligence: yup.number().min(3).max(30).required(),
-    wisdom: yup.number().min(3).max(30).required(),
-    charisma: yup.number().min(3).max(30).required(),
+  yup.object({
+    attributes: yup.object({
+      strength: yup
+        .number()
+        .integer(errorMessages.isNum)
+        .min(3, errorMessages.minVal)
+        .max(30, errorMessages.maxVal)
+        .required(errorMessages.fieldRequired),
+      dexterity: yup
+        .number()
+        .integer(errorMessages.isNum)
+        .min(3, errorMessages.minVal)
+        .max(30, errorMessages.maxVal)
+        .required(errorMessages.fieldRequired),
+      constitution: yup
+        .number()
+        .integer(errorMessages.isNum)
+        .min(3, errorMessages.minVal)
+        .max(30, errorMessages.maxVal)
+        .required(errorMessages.fieldRequired),
+      intelligence: yup
+        .number()
+        .integer(errorMessages.isNum)
+        .min(3, errorMessages.minVal)
+        .max(30, errorMessages.maxVal)
+        .required(errorMessages.fieldRequired),
+      wisdom: yup
+        .number()
+        .integer(errorMessages.isNum)
+        .min(3, errorMessages.minVal)
+        .max(30, errorMessages.maxVal)
+        .required(errorMessages.fieldRequired),
+      charisma: yup
+        .number()
+        .integer(errorMessages.isNum)
+        .min(3, errorMessages.minVal)
+        .max(30, errorMessages.maxVal)
+        .required(errorMessages.fieldRequired),
+    }),
   }),
-  yup.object().shape({
-    // change this validation!!!
-    strength: yup.number().min(3).max(30),
-    dexterity: yup.number().min(3).max(30),
-    constitution: yup.number().min(3).max(30),
-    intelligence: yup.number().min(3).max(30),
-    wisdom: yup.number().min(3).max(30),
-    charisma: yup.number().min(3).max(30),
-  }),
-  yup.object().shape({
-    strength: yup.number().min(3).max(30),
-    dexterity: yup.number().min(3).max(30),
-    constitution: yup.number().min(3).max(30),
-    intelligence: yup.number().min(3).max(30),
+  yup.object({
+    weapon: yup.string(),
+    armor: yup.string(),
+    shield: yup.boolean(),
+    money: yup.object({
+      cp: yup.number().integer(errorMessages.isNum).positive(errorMessages.notNegative),
+      sp: yup.number().integer(errorMessages.isNum).positive(errorMessages.notNegative),
+      gp: yup.number().integer(errorMessages.isNum).positive(errorMessages.notNegative),
+    }),
+    bio: yup.string().max(1000, "C'mon, your DM is already getting a headache!"),
   }),
 ];
 
 interface IFormikStepperProps extends FormikConfig<FormikValues> {
   updateRequest: () => void;
-  submitCharacter: () => void;
+  submitCharacter: (values: FormikValues) => void;
+  closeModal: () => void;
 }
 
 export const FormikStepper = ({
   submitCharacter,
   updateRequest,
+  closeModal,
   children,
   ...props
 }: IFormikStepperProps): ReactElement => {
@@ -71,34 +115,47 @@ export const FormikStepper = ({
     return formStep === steps.length - 1;
   }
 
-  console.log('form step: ', formStep);
-  console.log('current validation schema: ', currentValidationSchema.fields);
-  console.log('this is the last step: ', isLastStep());
-
   return (
     <Formik
       {...props}
       validationSchema={currentValidationSchema}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={(values, helpers) => {
-        console.log('first');
+        helpers.setSubmitting(true);
         if (isLastStep()) {
           props.onSubmit(values, helpers);
+          submitCharacter(values);
         } else {
+          console.log('in Update');
+          props.onSubmit(values, helpers);
           setFormStep(formStep + 1);
         }
+        helpers.setSubmitting(false);
       }}
     >
-      {({ isSubmitting, handleSubmit }) => (
+      {({ isSubmitting, handleSubmit, resetForm }) => (
         <Form onSubmit={handleSubmit}>
           <ModalHeader>
-            <h2>Create a new character!</h2>
+            <Center my='6'>
+              <Heading size='lg'>CREATE A NEW CHARACTER!</Heading>
+            </Center>
             <h3>
-              Step {formStep + 1}: {steps[formStep]}
+              STEP {formStep + 1}: {steps[formStep]}
             </h3>
           </ModalHeader>
+
           <ModalBody>{currentChild}</ModalBody>
 
-          <ModalFooter>
+          <ModalFooter gridGap='5'>
+            <Button
+              onClick={() => {
+                closeModal();
+                resetForm();
+              }}
+            >
+              Cancel
+            </Button>
             {formStep > 0 && (
               <Button disabled={isSubmitting} onClick={() => setFormStep(formStep - 1)}>
                 Back
@@ -114,6 +171,7 @@ export const FormikStepper = ({
 
 export interface FormikStepProps extends Pick<FormikConfig<FormikValues>, 'children' | 'validationSchema'> {
   label?: string;
+  values?: FormikState<FormikValues>;
 }
 
 export const FormikStep = ({ children }: FormikStepProps): ReactElement => <>{children}</>;
@@ -121,7 +179,7 @@ export const FormikStep = ({ children }: FormikStepProps): ReactElement => <>{ch
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  submitCharacter: () => void;
+  submitCharacter: (values: FormikValues) => void;
   updateRequest: () => void;
 }
 
@@ -133,29 +191,10 @@ export const CreateCharacterModal: FC<Props> = ({ isOpen, onClose, submitCharact
     characterClass: '',
     level: 1,
     attributes: { strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10 },
-    skills: {
-      acrobatics: false,
-      animalHandling: false,
-      arcana: false,
-      athletics: false,
-      deception: false,
-      history: false,
-      insight: false,
-      intimidation: false,
-      investigation: false,
-      medicine: false,
-      nature: false,
-      perception: false,
-      performance: false,
-      persuasion: false,
-      religion: false,
-      sleightOfHand: false,
-      stealth: false,
-      survival: false,
-    },
-    armorClass: 10,
+    weapon: '',
+    armor: '',
+    shield: false,
     bio: '',
-    equipment: [{ name: '', description: 'string' }],
     wallet: { cp: 0, sp: 0, gp: 0 },
   };
 
@@ -167,39 +206,25 @@ export const CreateCharacterModal: FC<Props> = ({ isOpen, onClose, submitCharact
           initialValues={initialValues}
           submitCharacter={submitCharacter}
           updateRequest={updateRequest}
+          closeModal={onClose}
           onSubmit={(values, helpers) => {
-            console.log(values);
+            console.log('');
           }}
         >
           <FormikStep>
-            <Field
-              component={InputField}
-              name='characterName'
-              type='text'
-              label='Character Name'
-              placeholder='i.e. Frodo Baggins'
-            />
-            <ErrorMessage name='characterName' />
-
-            <Field
-              component={SelectField}
-              name='race'
-              type='select'
-              label='Choose your Race'
-              options={['human', 'elf', 'dwarf', 'halfling', 'orc']}
-            />
-            <ErrorMessage name='race' />
-
-            <Field
-              component={SelectField}
-              name='characterClass'
-              type='select'
-              label='Choose your Class'
-              options={['fighter', 'mage', 'rogue']}
-            />
-            <ErrorMessage name='characterClass' />
+            <CharacterBasicInfoForm />
+          </FormikStep>
+          <FormikStep>
+            <CharacterAttributesForm />
+          </FormikStep>
+          {/* <FormikStep>
+            <CharacterSkillsForm />
+          </FormikStep> */}
+          <FormikStep>
+            <CharacterMiscForm />
           </FormikStep>
         </FormikStepper>
+        <ModalCloseButton onClick={onClose} />
       </ModalContent>
     </Modal>
   );

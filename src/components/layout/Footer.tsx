@@ -7,9 +7,11 @@ const SocialButton: FC<{ children: ReactNode; label: string; href: string }> = (
   <Button
     bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
     rounded='full'
-    w='8'
-    h='8'
+    w='15'
+    h='15'
+    p='10px'
     cursor='pointer'
+    height='auto'
     as='a'
     href={href}
     display='inline-flex'
@@ -30,6 +32,7 @@ const Footer: FC = () => (
     <Container
       as={Stack}
       maxW='6xl'
+      height='75px'
       py='2'
       direction={{ base: 'column', md: 'row' }}
       spacing='4'
@@ -37,7 +40,7 @@ const Footer: FC = () => (
       align={{ base: 'center', md: 'center' }}
     >
       <Logo />
-      <Text>© 2020 Chakra Templates. All rights reserved</Text>
+      <Text>© 2022 D&amp;D Helper. All rights reserved</Text>
       <Stack direction='row' spacing='6'>
         <SocialButton label='Twitter' href='#'>
           <FaTwitter />

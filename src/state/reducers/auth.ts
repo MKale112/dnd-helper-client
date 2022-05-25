@@ -6,14 +6,14 @@ interface InitialState {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: TUser | null;
+  user: TUser;
 }
 
 const initialState: InitialState = {
-  token: localStorage.getItem('token'), // null
+  token: localStorage.getItem('token'),
   isAuthenticated: false,
   isLoading: true,
-  user: null,
+  user: { name: 'nemo', email: 'nemo@nemo.com', _id: '', avatar: '', characters: [] },
 };
 
 export default function (state = initialState, action: AuthAction<string | TUser>): InitialState {
@@ -33,7 +33,7 @@ export default function (state = initialState, action: AuthAction<string | TUser
       return { ...state, token: null, isAuthenticated: false, isLoading: false };
     case ActionType.LOGOUT:
       localStorage.removeItem('token');
-      return { ...state, token: null, user: null, isAuthenticated: false, isLoading: false };
+      return { ...state, token: null, user: {} as TUser, isAuthenticated: false, isLoading: false };
     default:
       return state;
   }

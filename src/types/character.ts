@@ -2,7 +2,6 @@ export enum CharacterGender {
   'MALE' = 'male',
   'FEMALE' = 'female',
   'OTHER' = 'other',
-  'NONDISCLOSABLE' = 'nondisclosable',
 }
 
 export enum CharacterRace {
@@ -13,11 +12,16 @@ export enum CharacterRace {
   'ORC' = 'orc',
 }
 
+export enum CharacterStatus {
+  'ALIVE' = 'alive',
+  'DEAD' = 'dead',
+}
+
 export interface CharacterCreationInput {
   characterName: string;
-  race: CharacterRace;
+  gender?: CharacterGender;
+  race?: CharacterRace;
   characterClass: string;
-  gender: CharacterGender;
   level: number;
   attributes?: {
     strength: number;
@@ -27,29 +31,42 @@ export interface CharacterCreationInput {
     wisdom: number;
     charisma: number;
   };
-  // "none" | "proficient"
-  skills?: {
-    acrobatics: boolean;
-    animalHandling: boolean;
-    arcana: boolean;
-    athletics: boolean;
-    deception: boolean;
-    history: boolean;
-    insight: boolean;
-    intimidation: boolean;
-    investigation: boolean;
-    medicine: boolean;
-    nature: boolean;
-    perception: boolean;
-    performance: boolean;
-    persuasion: boolean;
-    religion: boolean;
-    sleightOfHand: boolean;
-    stealth: boolean;
-    survival: boolean;
-  };
-  armorClass?: number;
+  weapon?: string;
+  armor?: string;
+  shield: boolean;
   bio?: string;
-  equipment?: [{ name: string; description: string }];
   wallet?: { cp: number; sp: number; gp: number };
+}
+
+export interface ICharacter {
+  playerId?: string;
+  characterName: string;
+  gender?: CharacterGender;
+  race?: CharacterRace;
+  status?: CharacterStatus;
+  characterClass: string;
+  level: number;
+  attributes: {
+    strength: number;
+    dexterity: number;
+    constitution: number;
+    intelligence: number;
+    wisdom: number;
+    charisma: number;
+  };
+  saves: {
+    strength: boolean;
+    dexterity: boolean;
+    constitution: boolean;
+    intelligence: boolean;
+    wisdom: boolean;
+    charisma: boolean;
+  };
+  proficiencyBonus: number;
+  weapon?: string;
+  armor: string;
+  shield: boolean;
+  hitpointMax: number;
+  bio: string;
+  wallet: { cp: number; sp: number; gp: number };
 }

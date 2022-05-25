@@ -1,4 +1,8 @@
-export type TGender = 'male' | 'female' | 'other' | '';
+export enum TGender {
+  'MALE' = 'male',
+  'FEMALE' = 'female',
+  'OTHER' = 'other',
+}
 
 export interface TUserInput {
   name: string;
@@ -9,8 +13,8 @@ export interface TUserInput {
 
 export type TLoginForm = Omit<TUserInput, 'name' | 'gender'>;
 
-export interface TUser extends TUserInput {
-  id: string;
+export interface TUser extends Omit<TUserInput, 'password' | 'gender'> {
+  _id: string;
   avatar?: string;
-  date: Date;
+  characters: Array<string>;
 }

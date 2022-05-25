@@ -15,6 +15,7 @@ export const loadUser =
 
     try {
       const res = (await axios.get('/api/users')) as AxiosResponse<TUser>;
+      console.log('[FE] loadUser:', res.data);
       dispatch({ type: ActionType.LOAD_USER, payload: res.data });
     } catch (err) {
       dispatch({ type: ActionType.AUTH_ERROR });
