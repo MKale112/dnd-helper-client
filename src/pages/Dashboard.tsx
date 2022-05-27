@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Button } from '@chakra-ui/react';
+import { Button, Spinner } from '@chakra-ui/react';
 import React, { FC, useEffect, useState } from 'react';
 import axios from 'axios';
 // REDUX
@@ -14,16 +14,32 @@ import { ICharacter } from '../types/character';
 
 const Dashboard: FC = () => {
   const [characterData, setCharacterData] = useState([] as ICharacter[]);
+  const [isLoadingChars, setIsLoadingChars] = useState(false);
   const [isCreateCharacterModalOpen, setIsCreateCharacterModalOpen] = useState(false);
 
-  // useEffect(() => {
-  //   // dispatch loadUsers
-  //   // loadCharacters();
-  //   // dispatch loadCampaigns
-  //   // loadCampaigns();
-  // }, [characterData]);
-
   const { user } = useAppSelector((state) => state.auth) || ({} as TUser);
+
+  const fetchCharacters = async (id: string): Promise<void> => {
+    try {
+      const response = await axios.get('/api/characters');
+      console.log(response.data);
+      const characters = response.data as ICharacter[];
+      setCharacterData(characters);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log('characterData: ', characterData);
+
+  useEffect(() => {
+    setIsLoadingChars(true);
+    // dispatch loadUsers
+    fetchCharacters(user._id);
+    // dispatch loadCampaigns
+    // loadCampaigns();
+    setIsLoadingChars(false);
+  }, []);
 
   const dispatch = useAppDispatch();
   const { createCharacter } = bindActionCreators(CharacterActionCreators, dispatch);
@@ -41,9 +57,7 @@ const Dashboard: FC = () => {
   return (
     <>
       {/* <WelcomeBanner />  */}
-      <Characters
-      // characters={characterData}
-      />
+      {!isLoadingChars ? <Characters playerName={user.name} characters={characterData} /> : <Spinner />}
       <Button onClick={() => setIsCreateCharacterModalOpen(true)}> Make a new Character</Button>
       {/* <Campaigns  /> */}
       {isCreateCharacterModalOpen && (

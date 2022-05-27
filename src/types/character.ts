@@ -40,6 +40,7 @@ export interface CharacterCreationInput {
 
 export interface ICharacter {
   playerId?: string;
+  id?: string;
   characterName: string;
   gender?: CharacterGender;
   race?: CharacterRace;

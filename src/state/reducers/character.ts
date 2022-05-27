@@ -5,6 +5,7 @@ import { CharacterAction } from '../actions/character';
 type InitialState = ICharacter;
 
 const initialState: InitialState = {
+  id: undefined,
   playerId: undefined,
   characterName: '',
   gender: undefined,
