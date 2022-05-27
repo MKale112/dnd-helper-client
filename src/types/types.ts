@@ -18,3 +18,8 @@ export interface TUser extends Omit<TUserInput, 'password' | 'gender'> {
   avatar?: string;
   characters: Array<string>;
 }
+
+export enum EPurpose {
+  'CAMPAIGN' = 'campaign',
+  'CHARACTER' = 'character',
+}

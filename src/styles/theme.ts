@@ -25,7 +25,7 @@ export const dndTheme = extendTheme({
     subtitleLarge: '3.5rem',
     title: '4rem',
   },
-  breakpoints: {
+  devices: {
     mobile: '750px',
     tablet: '1000px',
     desktop: '1280px',
