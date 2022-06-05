@@ -1,6 +1,6 @@
 import { Field } from 'formik';
 import React, { FC, useState } from 'react';
-import { CheckboxGroupField } from '../FormModels/CheckboxField';
+// import { CheckboxGroupField } from '../FormModels/CheckboxField';
 
 const skills = [
   'acrobatics',
@@ -26,7 +26,7 @@ const skills = [
 const CharacterSkillsForm: FC = () => (
   <>
     <h3>Choose skills for your character</h3>
-    <Field component={CheckboxGroupField} name='skills' labels={skills} />
+    {/* <Field component={CheckboxGroupField} name='skills' labels={skills} /> */}
   </>
 );
 

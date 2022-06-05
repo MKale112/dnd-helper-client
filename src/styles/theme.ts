@@ -43,4 +43,24 @@ export const dndTheme = extendTheme({
     uberLarge: '15rem',
     ultraLarge: '18rem',
   },
+  components: {
+    Button: {
+      variants: {
+        'danger-btn': {
+          bg: 'danger',
+          color: 'white',
+          _hover: {
+            bg: 'darkSecondary',
+          },
+        },
+        'forward-btn': {
+          bg: 'primary',
+          colour: 'white',
+          _hover: {
+            bg: 'primaryLight',
+          },
+        },
+      },
+    },
+  },
 });

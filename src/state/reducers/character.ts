@@ -1,16 +1,16 @@
-import { CharacterRace, ICharacter } from '../../types/character';
+import { CharacterRace, CharacterStatus, ICharacter } from '../../types/character';
 import { ActionType } from '../action-types/character';
 import { CharacterAction } from '../actions/character';
 
 type InitialState = ICharacter;
 
 const initialState: InitialState = {
-  id: undefined,
-  playerId: undefined,
+  _id: '',
+  playerId: '',
   characterName: '',
   gender: undefined,
-  status: undefined,
-  race: undefined,
+  status: CharacterStatus.ALIVE,
+  race: CharacterRace.HUMAN,
   level: 1,
   characterClass: '',
   attributes: {
@@ -44,16 +44,13 @@ const initialState: InitialState = {
 
 export default function (state = initialState, action: CharacterAction<ICharacter>): InitialState {
   const { type, payload } = action;
-  console.log('reducer:', payload);
 
   switch (type) {
     case ActionType.CREATE_CHARACTER:
       return { ...state, ...payload };
     case ActionType.CREATE_CHARACTER_FAIL:
-      console.log('create char failed');
       return state;
     default:
-      console.log('default action on character reducer');
       return state;
   }
 }

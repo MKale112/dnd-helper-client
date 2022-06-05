@@ -61,6 +61,7 @@
     "react/no-unused-state": "error",
     "require-await": "error",
     "@typescript-eslint/no-empty-function": "warn",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
   }
 }

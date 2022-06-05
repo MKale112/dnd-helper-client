@@ -17,6 +17,12 @@ export enum CharacterStatus {
   'DEAD' = 'dead',
 }
 
+export enum CharacterClass {
+  'FIGHTER' = 'fighter',
+  'WIZARD' = 'wizard',
+  'ROGUE' = 'rogue',
+}
+
 export interface CharacterCreationInput {
   characterName: string;
   gender?: CharacterGender;
@@ -39,12 +45,12 @@ export interface CharacterCreationInput {
 }
 
 export interface ICharacter {
-  playerId?: string;
-  id?: string;
+  playerId: string;
+  _id: string;
   characterName: string;
   gender?: CharacterGender;
-  race?: CharacterRace;
-  status?: CharacterStatus;
+  race: CharacterRace;
+  status: CharacterStatus;
   characterClass: string;
   level: number;
   attributes: {
@@ -71,3 +77,17 @@ export interface ICharacter {
   bio: string;
   wallet: { cp: number; sp: number; gp: number };
 }
+
+export interface ICharacterCard {
+  gender?: string;
+  race: CharacterRace;
+  level: number;
+  characterClass: string;
+  status: CharacterStatus;
+}
+
+export const colorMap = new Map<CharacterClass, string>([
+  [CharacterClass.FIGHTER, '#B22B27'],
+  [CharacterClass.ROGUE, '#321A18'],
+  [CharacterClass.WIZARD, '#683996'],
+]);

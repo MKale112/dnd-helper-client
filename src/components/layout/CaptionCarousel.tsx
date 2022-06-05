@@ -1,15 +1,6 @@
 import React, { FC } from 'react';
-import {
-  Box,
-  IconButton,
-  useBreakpointValue,
-  Stack,
-  Heading,
-  Text,
-  Container,
-  // useColorModeValue,
-} from '@chakra-ui/react';
-import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
+import { useBreakpointValue } from '@chakra-ui/react';
+
 import Slider from 'react-slick';
 import splashscreen1 from '../../assets/images/splashscreen1.webp';
 import splashscreen2 from '../../assets/images/splashscreen2.webp';
@@ -45,7 +36,7 @@ export const CaptionCarousel: FC = () => {
     {
       id: 1,
       title: 'The all new virtual tabletop in town!',
-      text: 'Embrace the adventure! Gather up ya bois and claim your birthright!',
+      text: 'Embrace the adventure! Gather up the bois and claim your birthright!',
       imageSrc: splashscreen1,
     },
     {
@@ -104,6 +95,7 @@ export const CaptionCarousel: FC = () => {
   //     >
   //       <BiRightArrowAlt size='50px' color='white' />
   //     </IconButton>
+
   //     {/* Slider */}
   //     {/* eslint-disable react/jsx-props-no-spreading */}
   //     <Slider {...settings} ref={(item) => setSlider(item)}>

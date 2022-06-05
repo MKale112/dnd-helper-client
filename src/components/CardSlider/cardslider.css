@@ -1,0 +1,16 @@
+.slick-track {
+  height: 375px;
+  padding: 1rem;
+}
+
+@media screen and (max-width: 48rem) {
+  .slick-track {
+    height: 325px;
+  }
+}
+
+@media screen and (max-width: 30rem) {
+  .slick-track {
+    height: 325px;
+  }
+}
