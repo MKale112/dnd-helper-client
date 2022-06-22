@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { useBreakpointValue } from '@chakra-ui/react';
-
+import { Box, Container, Heading, IconButton, Stack, useBreakpointValue, Text } from '@chakra-ui/react';
+import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import Slider from 'react-slick';
 import splashscreen1 from '../../assets/images/splashscreen1.webp';
 import splashscreen2 from '../../assets/images/splashscreen2.webp';
@@ -17,6 +17,7 @@ const settings = {
   autoplaySpeed: 5000,
   slidesToShow: 1,
   slidesToScroll: 1,
+  outerHeight: 800,
 };
 
 export const CaptionCarousel: FC = () => {
@@ -53,85 +54,85 @@ export const CaptionCarousel: FC = () => {
     },
   ];
 
-  return <></>;
+  return (
+    <Box position='relative' height='800px' width='full' overflow='hidden'>
+      {/* CSS files for react-slick */}
+      <link
+        rel='stylesheet'
+        type='text/css'
+        charSet='UTF-8'
+        href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'
+      />
+      <link
+        rel='stylesheet'
+        type='text/css'
+        href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css'
+      />
+      {/* Left Icon */}
+      <IconButton
+        aria-label='left-arrow'
+        variant='ghost'
+        position='absolute'
+        left={side}
+        top={top}
+        transform='translate(0%, -50%)'
+        zIndex='2'
+        onClick={() => slider?.slickPrev()}
+      >
+        <BiLeftArrowAlt size='50px' color='white' />
+      </IconButton>
+      {/* Right Icon */}
+      <IconButton
+        aria-label='right-arrow'
+        variant='ghost'
+        position='absolute'
+        right={side}
+        top={top}
+        transform='translate(0%, -50%)'
+        zIndex='2'
+        onClick={() => slider?.slickNext()}
+      >
+        <BiRightArrowAlt size='50px' color='white' />
+      </IconButton>
 
-  // return (
-  //   <Box position='relative' height='800px' width='full' overflow='hidden'>
-  //     {/* CSS files for react-slick */}
-  //     <link
-  //       rel='stylesheet'
-  //       type='text/css'
-  //       charSet='UTF-8'
-  //       href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'
-  //     />
-  //     <link
-  //       rel='stylesheet'
-  //       type='text/css'
-  //       href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css'
-  //     />
-  //     {/* Left Icon */}
-  //     <IconButton
-  //       aria-label='left-arrow'
-  //       variant='ghost'
-  //       position='absolute'
-  //       left={side}
-  //       top={top}
-  //       transform='translate(0%, -50%)'
-  //       zIndex='2'
-  //       onClick={() => slider?.slickPrev()}
-  //     >
-  //       <BiLeftArrowAlt size='50px' color='white' />
-  //     </IconButton>
-  //     {/* Right Icon */}
-  //     <IconButton
-  //       aria-label='right-arrow'
-  //       variant='ghost'
-  //       position='absolute'
-  //       right={side}
-  //       top={top}
-  //       transform='translate(0%, -50%)'
-  //       zIndex='2'
-  //       onClick={() => slider?.slickNext()}
-  //     >
-  //       <BiRightArrowAlt size='50px' color='white' />
-  //     </IconButton>
-
-  //     {/* Slider */}
-  //     {/* eslint-disable react/jsx-props-no-spreading */}
-  //     <Slider {...settings} ref={(item) => setSlider(item)}>
-  //       {cards.map((card) => (
-  //         <Box
-  //           key={card.id}
-  //           height='5xl'
-  //           position='relative'
-  //           backgroundPosition='center'
-  //           backgroundRepeat='no-repeat'
-  //           backgroundSize='cover'
-  //           backgroundImage={`url(${card.imageSrc})`}
-  //         >
-  //           {/* This is the block you need to change, to customize the caption */}
-  //           <Container size='container.lg' height='300px' position='relative'>
-  //             <Stack spacing='6' w='full' maxW='lg' position='absolute' top='50%' transform='translate(0, -50%)'>
-  //               <Heading
-  //                 fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}
-  //                 fontWeight={{ base: '600', md: '600', lg: '800' }}
-  //               >
-  //                 {card.title}
-  //               </Heading>
-  //               <Text
-  //                 fontSize={{ base: 'lg', lg: 'lg' }}
-  //                 fontWeight={{ base: '600', md: '600', lg: '600' }}
-  //                 color='white'
-  //               >
-  //                 {card.text}
-  //               </Text>
-  //             </Stack>
-  //           </Container>
-  //         </Box>
-  //       ))}
-  //     </Slider>
-  //   </Box>
-  // );
+      {/* Slider */}
+      {/* eslint-disable react/jsx-props-no-spreading */}
+      <Slider {...settings} ref={(item) => setSlider(item)}>
+        {cards.map((card) => (
+          <Box
+            key={card.id}
+            height='5xl'
+            position='relative'
+            backgroundPosition='center'
+            backgroundRepeat='no-repeat'
+            backgroundSize='cover'
+            backgroundImage={`url(${card.imageSrc})`}
+            filter='auto'
+            brightness='40%'
+          >
+            {/* This is the block you need to change, to customize the caption */}
+            <Container size='container.lg' height='300px' position='relative'>
+              <Stack spacing='6' w='full' maxW='lg' position='absolute' top='50%' transform='translate(0, -50%)'>
+                <Heading
+                  fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}
+                  fontWeight={{ base: '600', md: '600', lg: '800' }}
+                >
+                  {card.title}
+                </Heading>
+                <Text
+                  fontSize={{ base: 'lg', lg: 'lg' }}
+                  fontWeight={{ base: '600', md: '600', lg: '600' }}
+                  color='white'
+                >
+                  {card.text}
+                </Text>
+              </Stack>
+            </Container>
+          </Box>
+        ))}
+      </Slider>
+    </Box>
+  );
 };
 
 export default CaptionCarousel;

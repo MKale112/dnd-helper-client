@@ -13,7 +13,7 @@ export interface FormData {
   password: string;
 }
 
-export const Login: FC = () => {
+export const LoginComponent: FC = () => {
   const [formData, setFormData] = useState({} as FormData);
   const { email, password } = formData;
 
@@ -41,36 +41,37 @@ export const Login: FC = () => {
   };
 
   return (
-    <Flex direction='column' justifyContent='center' align='center' width='full'>
-      <Box p={8} maxWidth='500px' borderWidth={1} borderRadius={8} boxShadow='lg'>
-        <form onSubmit={handleSubmit}>
-          <Stack spacing='24px'>
-            <Heading>Login</Heading>
-            {alert && <FireAlerts alerts={alert} />}
-            <Stack spacing={3}>
-              <FormControl>
-                <FormLabel>Email:</FormLabel>
-                <Input type='email' name='email' id='email' value={email} onChange={(e) => handleChange(e)} />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Password:</FormLabel>
-                <Input
-                  type='password'
-                  name='password'
-                  id='password'
-                  value={password}
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormControl>
-              <Button bg='primary' color='white' type='submit' value='Submit' mt='24px'>
-                Submit
-              </Button>
-            </Stack>
-          </Stack>
-        </form>
-      </Box>
+    <Flex
+      bgColor='white'
+      direction='column'
+      justifyContent='center'
+      align='center'
+      borderWidth={1}
+      borderRadius={15}
+      boxShadow='dark-lg'
+      width='50%'
+      p={8}
+    >
+      <form onSubmit={handleSubmit}>
+        <Heading mb={5}>Login</Heading>
+        {alert && <FireAlerts alerts={alert} />}
+        <Stack spacing={5}>
+          <FormControl>
+            <FormLabel>Email:</FormLabel>
+            <Input type='email' name='email' id='email' value={email} onChange={(e) => handleChange(e)} />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Password:</FormLabel>
+            <Input type='password' name='password' id='password' value={password} onChange={(e) => handleChange(e)} />
+          </FormControl>
+          <Button bg='primary' color='white' type='submit' value='Submit' mt={5} width='50%' mx='auto'>
+            Submit
+          </Button>
+        </Stack>
+        {/* </Stack> */}
+      </form>
     </Flex>
   );
 };
 
-export default Login;
+export default LoginComponent;

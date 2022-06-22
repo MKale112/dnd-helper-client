@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 // ROUTES
-import Register from '../authentication/Register';
-import Login from '../authentication/Login';
+import Register from '../../pages/Register';
+import Login from '../../pages/Login';
 import Landing from '../../pages/Landing';
 
 export const PublicRoutes: FC = () => {

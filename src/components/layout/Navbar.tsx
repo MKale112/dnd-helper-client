@@ -16,6 +16,7 @@ import {
   Stack,
   useColorMode,
   Center,
+  HStack,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { bindActionCreators } from 'redux';
@@ -35,22 +36,28 @@ interface NavlinkProps {
 const Navlinks: FC<NavlinkProps> = ({ links }) => {
   const colorVal = useColorModeValue('gray.200', 'gray.700');
   const navigation = links.map((link) => (
-    <Link
+    <Center
       key={link.label}
       as={RouterLink}
       to={link.link}
       px='5'
       py='3'
       rounded='md'
+      height='full'
+      fontSize={{ base: 'lg', md: 'xl', lg: 'xl' }}
       _hover={{
         textDecoration: 'none',
         bg: colorVal,
       }}
     >
       {link.label}
-    </Link>
+    </Center>
   ));
-  return <>{navigation}</>;
+  return (
+    <HStack spacing='5' height='full'>
+      {navigation}
+    </HStack>
+  );
 };
 
 export const Nav: FC = () => {
@@ -63,36 +70,37 @@ export const Nav: FC = () => {
   const { logout } = bindActionCreators(AuthActionCreators, dispatch);
 
   const guestLinks = [
-    { label: 'Campaigns', link: '/campaignbank' },
-    { label: 'Characters', link: '/characterbank' },
     { label: 'Sign Up', link: '/register' },
     { label: 'Log in', link: '/login' },
   ];
-  const authLinks = [
-    { label: 'Dashboard', link: '/dashboard' },
-    { label: 'Campaigns', link: '/campaignbank' },
-    { label: 'Characters', link: '/characterbank' },
-  ];
+  const authLinks = [{ label: 'Dashboard', link: '/dashboard' }];
 
   return (
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px='4'>
+      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={{ base: '10', md: '40', lg: '5rem' }}>
         <Flex h='20' alignItems='center' justifyContent='space-between'>
-          <Stack direction='row'>
-            {/* make this whole stack a link pointing to 'home' or 'dashboard' */}
+          <Stack
+            as={RouterLink}
+            direction='row'
+            align='center'
+            _hover={{ textDecoration: 'none' }}
+            to='/'
+            height='full'
+          >
             <Logo />
-            <Heading>D&D Helper</Heading>
+            <Heading fontSize={{ base: 'xl', md: '2xl', lg: '4xl' }}>D&amp;D Helper</Heading>
           </Stack>
 
-          <Flex alignItems='center'>
-            <Stack direction='row' spacing='2'>
-              {isAuthenticated ? <Navlinks links={authLinks} /> : <Navlinks links={guestLinks} />}
-            </Stack>
-            <Stack direction='row' spacing='7'>
-              <Button onClick={toggleColorMode}>{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}</Button>
+          <Flex alignItems='center' height='full'>
+            {isAuthenticated ? <Navlinks links={authLinks} /> : <Navlinks links={guestLinks} />}
+
+            <Stack direction='row' align='center' spacing='5' height='full'>
+              <Button height='full' onClick={toggleColorMode}>
+                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+              </Button>
               {isAuthenticated && (
                 <Menu>
-                  <MenuButton as={Button} rounded='full' variant='link' cursor='pointer' minW='0'>
+                  <MenuButton as={Button} rounded='full' variant='link' cursor='pointer' minW='0' height='full'>
                     <Avatar size='sm' src={user?.avatar} />
                   </MenuButton>
 

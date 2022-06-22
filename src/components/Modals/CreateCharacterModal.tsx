@@ -14,7 +14,7 @@ import {
   Heading,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { CharacterCreationInput, CharacterGender, CharacterRace } from '../../types/character';
+import { CharacterCreationInput, CharacterGender, CharacterRace, ICharacter } from '../../types/character';
 import CharacterBasicInfoForm from './Forms/CharacterBasicInfoForm';
 import CharacterAttributesForm from './Forms/CharacterAttributesForm';
 import CharacterMiscForm from './Forms/CharacterMiscForm';
@@ -93,14 +93,13 @@ const validationSchema = [
 ];
 
 interface IFormikStepperProps extends FormikConfig<FormikValues> {
-  updateRequest: () => void;
   submitCharacter: (values: FormikValues) => void;
   closeModal: () => void;
 }
 
 export const FormikStepper = ({
   submitCharacter,
-  updateRequest,
+
   closeModal,
   children,
   ...props
@@ -138,7 +137,7 @@ export const FormikStepper = ({
         <Form onSubmit={handleSubmit}>
           <ModalHeader>
             <Center my='6'>
-              <Heading size='lg'>CREATE A NEW CHARACTER!</Heading>
+              <Heading size='lg'>CHARACTER CREATION / UPDATE!</Heading>
             </Center>
             <h3>
               STEP {formStep + 1}: {steps[formStep]}
@@ -176,14 +175,19 @@ export interface FormikStepProps extends Pick<FormikConfig<FormikValues>, 'child
 
 export const FormikStep = ({ children }: FormikStepProps): ReactElement => <>{children}</>;
 
-interface Props {
+export interface Props {
   isOpen: boolean;
   onClose: () => void;
   submitCharacter: (values: FormikValues) => void;
-  updateRequest: () => void;
+  updateValues?: ICharacter | null;
 }
 
-export const CreateCharacterModal: FC<Props> = ({ isOpen, onClose, submitCharacter, updateRequest }): ReactElement => {
+export const CreateCharacterModal: FC<Props> = ({
+  isOpen,
+  onClose,
+  submitCharacter,
+  updateValues = null,
+}): ReactElement => {
   const initialValues: CharacterCreationInput = {
     characterName: '',
     race: CharacterRace.HUMAN,
@@ -203,9 +207,9 @@ export const CreateCharacterModal: FC<Props> = ({ isOpen, onClose, submitCharact
       <ModalOverlay />
       <ModalContent>
         <FormikStepper
-          initialValues={initialValues}
+          // eslint-disable-next-line
+          initialValues={updateValues ? updateValues : initialValues}
           submitCharacter={submitCharacter}
-          updateRequest={updateRequest}
           closeModal={onClose}
           onSubmit={(values, helpers) => {
             console.log('');

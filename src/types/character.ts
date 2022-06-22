@@ -85,9 +85,3 @@ export interface ICharacterCard {
   characterClass: string;
   status: CharacterStatus;
 }
-
-export const colorMap = new Map<CharacterClass, string>([
-  [CharacterClass.FIGHTER, '#B22B27'],
-  [CharacterClass.ROGUE, '#321A18'],
-  [CharacterClass.WIZARD, '#683996'],
-]);

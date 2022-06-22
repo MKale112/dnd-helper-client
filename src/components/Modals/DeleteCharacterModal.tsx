@@ -1,44 +1,34 @@
 import React, { FC } from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  Button,
-  Spinner,
-  Center,
-  Heading,
-  ModalCloseButton,
-  HStack,
-} from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, Button, Heading, HStack } from '@chakra-ui/react';
 
 export interface DeleteCharacterModalProps {
   isCharacterDeleteModalOpen: boolean;
   closeCharacterDeleteModal: () => void;
+  deleteCharacter: () => void;
 }
 
 const DeleteCharacterModal: FC<DeleteCharacterModalProps> = ({
   isCharacterDeleteModalOpen,
   closeCharacterDeleteModal,
+  deleteCharacter,
 }) => (
   <Modal isCentered isOpen={isCharacterDeleteModalOpen} onClose={closeCharacterDeleteModal}>
     <ModalOverlay />
     <ModalContent>
       <ModalHeader>
-        <Heading>Do you really want to delete your character?</Heading>
+        <Heading fontSize={{ base: 'xl', md: '2xl' }}>Do you really want to delete your character?</Heading>
       </ModalHeader>
       <ModalFooter as={HStack}>
-        {/* <HStack> */}
         <Button onClick={closeCharacterDeleteModal}>Cancel</Button>
         <Button
           variant='danger-btn'
-          // onClick={() => deleteItem(item)}
+          onClick={() => {
+            deleteCharacter();
+            closeCharacterDeleteModal();
+          }}
         >
           Yes
         </Button>
-        {/* </HStack> */}
       </ModalFooter>
     </ModalContent>
   </Modal>

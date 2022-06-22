@@ -1,19 +1,27 @@
-import { EPurpose } from './types';
-
 export interface ICampaignInput {
-  name: string;
+  campaignName: string;
   description: string;
+  imgUrl: string;
+}
+
+export interface Player {
+  user: string;
+  character: string;
 }
 
 export interface ICampaign extends ICampaignInput {
-  id: string;
-  DMprivateNotes: string[];
-  DMpublicNotes: string[];
-  players: string[];
-  status: CampaingStatus;
+  _id: string;
+  DM: string;
+  DMname: string;
+  players: Player[];
+  status: CampaignStatus;
+  dateStarted: string;
+  dateEnded: string;
+  // DMprivateNotes: string[];
+  // DMpublicNotes: string[];
 }
 
-export enum CampaingStatus {
+export enum CampaignStatus {
   'ONGOING' = 'ongoing',
   'FINISHED' = 'finished',
   'HIATUS' = 'hiatus',
@@ -21,9 +29,7 @@ export enum CampaingStatus {
 }
 
 export interface ICampaignCard {
-  name: string;
-  DM: string;
-  dateStarted?: string;
+  DMname: string;
+  dateStarted: string;
   dateEnded?: string;
-  status: CampaingStatus;
 }

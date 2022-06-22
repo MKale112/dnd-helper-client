@@ -55,9 +55,9 @@ export const dndTheme = extendTheme({
         },
         'forward-btn': {
           bg: 'primary',
-          colour: 'white',
+          color: 'white',
           _hover: {
-            bg: 'primaryLight',
+            bg: 'lightPrimary',
           },
         },
       },

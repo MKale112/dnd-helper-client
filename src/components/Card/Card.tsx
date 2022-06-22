@@ -1,12 +1,11 @@
-import { Center, Flex, Heading, Text } from '@chakra-ui/react';
+import { Button, Center, Flex, Heading, Text, useMediaQuery } from '@chakra-ui/react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { NullLiteral } from 'typescript';
-import { CharacterGender, CharacterRace, ICharacter, colorMap } from '../../types/character';
-import { capitalizeString } from '../../utils/misc';
+import { CharacterClass, CharacterGender, CharacterRace, CharacterStatus, ICharacter } from '../../types/character';
+import { capitalizeString, classColorMap, statusCharColorMap } from '../../utils/misc';
 
-const StyledCardContainer = styled(Flex)<{ active: boolean }>`
+export const StyledCardContainer = styled(Flex)<{ active: boolean }>`
   transition: all 0.3s ease-in-out;
   &:hover {
     cursor: pointer;
@@ -50,6 +49,7 @@ export type Base<T> = {
   item: ICharacter;
   selectedItem: ICharacter | null;
   setItem: React.Dispatch<React.SetStateAction<ICharacter | null>>;
+  setisCharacterViewModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type ICardContent<T> = Base<T> & {
@@ -66,40 +66,74 @@ const Card = <T,>({
   item,
   selectedItem,
   setItem,
-}: ICardContent<T>): ReactJSXElement => (
-  <StyledCardContainer
-    direction='column'
-    border={2}
-    m={10}
-    width={{ base: '125px', md: '150px', xl: '200px' }}
-    active={selectedItem !== null && id === selectedItem._id}
-    onClick={() => setItem(item)}
-  >
-    <Center borderTopRadius={10} height={{ base: '20px', md: '30px', xl: '30px' }} bg='primary'>
-      <Heading color='white' fontSize={{ base: 'md', md: 'md', xl: 'md' }}>
-        {typeof status === 'string' && status.toUpperCase()}
-      </Heading>
-    </Center>
-    <Flex
+  setisCharacterViewModalOpen,
+}: ICardContent<T>): ReactJSXElement => {
+  const [isViewButtonVisible, setIsViewButtonVisible] = useState(false);
+
+  return (
+    <StyledCardContainer
+      position='relative'
       direction='column'
-      justify='flex-end'
-      // width={{ base: '125px', md: '125px', xl: '200px' }}
-      height={{ base: '300px', md: '300px', xl: '350px' }}
-      border='2px'
-      borderColor='primary'
-      borderBottomRadius={10}
-      backgroundImage={imgUrl}
-      backgroundSize='cover'
-      backgroundRepeat='no-repeat'
+      border={2}
+      m='auto'
+      width={{ base: '200px', md: '200px', xl: '200px' }}
+      active={selectedItem !== null && id === selectedItem._id}
+      onClick={() => setItem(item)}
+      onMouseEnter={() => {
+        setIsViewButtonVisible(true);
+        setItem(item);
+      }}
+      onMouseLeave={() => {
+        setIsViewButtonVisible(false);
+      }}
     >
-      <Flex direction='column' justify='center' align='center' bgColor='primary' borderBottomRadius={5}>
-        <Heading fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} color='white'>
-          {capitalizeString(name)}
+      {isViewButtonVisible && (
+        <Button
+          size='lg'
+          position='absolute'
+          bottom='50%'
+          right='35%'
+          onClick={() => setisCharacterViewModalOpen(true)}
+        >
+          View
+        </Button>
+      )}
+      <Center
+        borderTopRadius={10}
+        height={{ base: '20px', md: '30px', xl: '30px' }}
+        bg={statusCharColorMap.get(item.status)}
+      >
+        <Heading color='white' fontSize={{ base: 'md', md: 'md', xl: 'md' }}>
+          {typeof status === 'string' && status.toUpperCase()}
         </Heading>
-        {children}
+      </Center>
+      <Flex
+        direction='column'
+        justify='flex-end'
+        height={{ base: '300px', md: '300px', xl: '350px' }}
+        border='1px'
+        borderColor={classColorMap.get(item.characterClass as CharacterClass)}
+        borderBottomRadius={12}
+        backgroundImage={imgUrl}
+        backgroundSize='cover'
+        backgroundRepeat='no-repeat'
+      >
+        <Flex
+          direction='column'
+          justify='center'
+          align='center'
+          bgColor={classColorMap.get(item.characterClass as CharacterClass)}
+          borderBottomRadius={10}
+          py={2}
+        >
+          <Heading fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} color='white'>
+            {capitalizeString(name)}
+          </Heading>
+          {children}
+        </Flex>
       </Flex>
-    </Flex>
-  </StyledCardContainer>
-);
+    </StyledCardContainer>
+  );
+};
 
 export default Card;

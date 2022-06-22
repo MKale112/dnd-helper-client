@@ -20,7 +20,7 @@ export interface FormData {
   gender: TGender;
 }
 
-export const Register: FC = () => {
+export const RegisterComponent: FC = () => {
   const [formData, setFormData] = useState({} as FormData);
   const { password, passwordRedo, name, email, gender } = formData;
   const { isAuthenticated } = useAppSelector((state) => state.auth);
@@ -53,8 +53,18 @@ export const Register: FC = () => {
   return isAuthenticated ? (
     <Redirect to='/' />
   ) : (
-    <Flex direction='column' justifyContent='center' align='center' width='full'>
-      <Box p={8} maxWidth='500px' borderWidth={1} borderRadius={8} boxShadow='lg'>
+    <Flex
+      bgColor='white'
+      direction='column'
+      justifyContent='center'
+      align='center'
+      borderWidth={1}
+      borderRadius={15}
+      boxShadow='dark-lg'
+      p={8}
+      width='50%'
+    >
+      <Box>
         <form onSubmit={handleSubmit}>
           <Stack spacing='24px'>
             <Heading mb='5px'>Make an account!</Heading>
@@ -127,14 +137,14 @@ export const Register: FC = () => {
                     Other
                   </Radio>
                 </Box>
-                <Box>
+                {/* <Box>
                   <Radio value='prefer not to say' color='black' onChange={(e) => handleChange(e)}>
                     Prefer not to say
                   </Radio>
-                </Box>
+                </Box> */}
               </HStack>
             </RadioGroup>
-            <Button bg='primary' color='white' type='submit' value='Submit' mt='24px'>
+            <Button bg='primary' color='white' type='submit' value='Submit' mt='24px' mx='auto' width='50%'>
               Submit
             </Button>
           </Stack>
@@ -144,4 +154,4 @@ export const Register: FC = () => {
   );
 };
 
-export default Register;
+export default RegisterComponent;

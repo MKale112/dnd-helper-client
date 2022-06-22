@@ -64,13 +64,22 @@ const CardSlider: FC<CardSliderProps> = ({ cards }) => {
     autoplay: true,
     speed: 500,
     autoplaySpeed: 5000,
-    slidesToShow: 5,
+    slidesToShow: 4,
     slidesToScroll: 1,
     adaptiveHeight: true,
     pauseOnHover: true,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1500,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 1200,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
@@ -79,14 +88,14 @@ const CardSlider: FC<CardSliderProps> = ({ cards }) => {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 1000,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 600,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,

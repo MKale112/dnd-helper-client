@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { Box, Container, Stack, Text, useColorModeValue, VisuallyHidden, Button } from '@chakra-ui/react';
+import { Center, Container, Stack, Text, useColorModeValue, VisuallyHidden, Button } from '@chakra-ui/react';
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import Logo from './Logo';
 
@@ -28,15 +28,15 @@ const SocialButton: FC<{ children: ReactNode; label: string; href: string }> = (
 );
 
 const Footer: FC = () => (
-  <Box bg={useColorModeValue('gray.50', 'gray.900')} color={useColorModeValue('gray.700', 'gray.200')} w='full'>
+  <Center bg={useColorModeValue('gray.50', 'gray.900')} color={useColorModeValue('gray.700', 'gray.200')} w='full'>
     <Container
       as={Stack}
       maxW='6xl'
       height='75px'
-      py='2'
+      p={0}
       direction={{ base: 'column', md: 'row' }}
       spacing='4'
-      justify={{ base: 'center', md: 'space-between' }}
+      justify={{ base: 'center', md: 'space-around' }}
       align={{ base: 'center', md: 'center' }}
     >
       <Logo />
@@ -53,7 +53,7 @@ const Footer: FC = () => (
         </SocialButton>
       </Stack>
     </Container>
-  </Box>
+  </Center>
 );
 
 export default Footer;

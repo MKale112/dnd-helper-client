@@ -29,8 +29,6 @@ export const createCharacter =
     id: string,
   ) =>
   async (dispatch: ThunkDispatch<RootState, void, CharacterAction<CharacterCreationInput>>): Promise<void> => {
-    console.log('action creator: ', id);
-
     const body = JSON.stringify({
       playerId: id,
       characterName,

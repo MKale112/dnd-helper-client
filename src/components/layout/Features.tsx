@@ -8,10 +8,10 @@ interface StatsCardProps {
 
 const StatsCard: FC<StatsCardProps> = ({ title, stat }) => (
   <Stat
-    px={{ base: 4, md: 8 }}
+    px={{ base: 4, md: 10 }}
     py='5'
     shadow='xl'
-    border='1px solid'
+    border='2px solid'
     borderColor={useColorModeValue('gray.800', 'gray.500')}
     rounded='lg'
   >
@@ -25,14 +25,14 @@ const StatsCard: FC<StatsCardProps> = ({ title, stat }) => (
 );
 
 const Features: FC = () => (
-  <Box maxW='7xl' mx='auto' pt={5} px={{ base: 2, sm: 12, md: 17 }}>
+  <Box maxW='6xl' mx='auto' pt={20} px={{ base: 2, sm: 12, md: 17 }}>
     <chakra.h1 textAlign='center' fontSize='4xl' py={10} fontWeight='bold'>
-      What is our company doing?
+      What can you do here?
     </chakra.h1>
-    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-      <StatsCard title='We serve' stat='50,000 people' />
-      <StatsCard title='In' stat='30 different countries' />
-      <StatsCard title='Who speak' stat='100 different languages' />
+    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }} pb={10}>
+      <StatsCard title='Make your own' stat='Characters &amp; Adventures' />
+      <StatsCard title='Play with over' stat='20 000 other people' />
+      <StatsCard title='Use the latest' stat='Tools &amp; Features' />
     </SimpleGrid>
   </Box>
 );

@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const LogoWrapper = styled.img`
@@ -6,6 +7,10 @@ const LogoWrapper = styled.img`
   width: auto;
 `;
 
-const Logo: FC = () => <LogoWrapper src='/logo.png' />;
+const Logo: FC = () => (
+  <RouterLink to='/'>
+    <LogoWrapper src='/logo.png' />
+  </RouterLink>
+);
 
 export default Logo;
