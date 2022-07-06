@@ -148,6 +148,7 @@ export const FormikStepper = ({
 
           <ModalFooter gridGap='5'>
             <Button
+              variant='danger-btn'
               onClick={() => {
                 closeModal();
                 resetForm();
@@ -160,7 +161,9 @@ export const FormikStepper = ({
                 Back
               </Button>
             )}
-            <Button type='submit'>{isLastStep() ? 'Submit' : 'Next'}</Button>
+            <Button variant='forward-btn' type='submit'>
+              {isLastStep() ? 'Submit' : 'Next'}
+            </Button>
           </ModalFooter>
         </Form>
       )}
@@ -221,9 +224,6 @@ export const CreateCharacterModal: FC<Props> = ({
           <FormikStep>
             <CharacterAttributesForm />
           </FormikStep>
-          {/* <FormikStep>
-            <CharacterSkillsForm />
-          </FormikStep> */}
           <FormikStep>
             <CharacterMiscForm />
           </FormikStep>

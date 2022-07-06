@@ -13,7 +13,7 @@ export interface ICampaign extends ICampaignInput {
   _id: string;
   DM: string;
   DMname: string;
-  players: Player[];
+  characters: Player[];
   status: CampaignStatus;
   dateStarted: string;
   dateEnded: string;

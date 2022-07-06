@@ -28,7 +28,12 @@ const SocialButton: FC<{ children: ReactNode; label: string; href: string }> = (
 );
 
 const Footer: FC = () => (
-  <Center bg={useColorModeValue('gray.50', 'gray.900')} color={useColorModeValue('gray.700', 'gray.200')} w='full'>
+  <Center
+    // mt='auto'
+    bg={useColorModeValue('gray.50', 'gray.900')}
+    color={useColorModeValue('gray.700', 'gray.200')}
+    w='full'
+  >
     <Container
       as={Stack}
       maxW='6xl'

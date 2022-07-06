@@ -83,6 +83,7 @@ export const CreateCampaignModal: FC<Props> = ({
 
               <ModalFooter gridGap='5'>
                 <Button
+                  variant='danger-btn'
                   onClick={() => {
                     onClose();
                     resetForm();
@@ -90,7 +91,9 @@ export const CreateCampaignModal: FC<Props> = ({
                 >
                   Cancel
                 </Button>
-                <Button type='submit'>Submit</Button>
+                <Button variant='forward-btn' type='submit'>
+                  Submit
+                </Button>
               </ModalFooter>
             </Form>
           )}

@@ -54,29 +54,26 @@ const Characters: FC<ICharacterProps> = ({ isMobile, playerName }) => {
   const [isLoadingChars, setIsLoadingChars] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState<ICharacter | null>(null);
 
-  console.log('selected: ', selectedCharacter);
-
+  const auth = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.auth) || ({} as TUser);
 
   const fetchCharacters = async (): Promise<void> => {
     try {
+      setIsLoadingChars(true);
       const response = await axios.get('/api/characters');
       const characters = response.data as ICharacter[];
       setCharacterData(characters);
       console.log(characters);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoadingChars(false);
     }
   };
 
   useEffect(() => {
-    setIsLoadingChars(true);
-    // dispatch loadUsers
-    fetchCharacters();
-    // dispatch loadCampaigns
-    // loadCampaigns();
-    setIsLoadingChars(false);
-  }, []);
+    if (auth.token) fetchCharacters();
+  }, [auth]);
 
   const dispatch = useAppDispatch();
   const { createCharacter } = bindActionCreators(CharacterActionCreators, dispatch);

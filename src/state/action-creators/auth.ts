@@ -43,7 +43,9 @@ export const login =
     };
 
     try {
-      const res = (await axios.post('/api/auth', body, config)) as AxiosResponse<{ token: string }>;
+      const res = (await axios.post('/api/auth', body, config)) as AxiosResponse<{
+        token: string;
+      }>;
       dispatch({ type: ActionType.LOGIN_SUCCESS, payload: res.data.token });
       dispatch(loadUser());
     } catch (err: any) {

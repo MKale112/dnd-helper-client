@@ -3,6 +3,7 @@ import { Box, Flex, Heading, HStack, SimpleGrid, StackDivider, VStack } from '@c
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, Button, ModalBody, Text } from '@chakra-ui/react';
 import Moment from 'react-moment';
 import React, { FC } from 'react';
+import { useHistory } from 'react-router';
 import { CampaignStatus, ICampaign, Player } from '../../types/campaign';
 import { capitalizeString, statusCampaignColorMap } from '../../utils/misc';
 
@@ -19,14 +20,17 @@ const Players: FC<PlayersProps> = ({ players }) => {
   return <VStack>{playersArray}</VStack>;
 };
 
-export interface CharacterInfoModalProps {
+export interface CampaignInfoModalProps {
   isOpen: boolean;
   info: ICampaign | null;
   onClose: () => void;
 }
 
-const CharacterInfoModal: FC<CharacterInfoModalProps> = ({ isOpen, info, onClose }) => {
-  const { campaignName, description, status, DMname, players, dateStarted, dateEnded } = info || ({} as ICampaign);
+const CampaignInfoModal: FC<CampaignInfoModalProps> = ({ isOpen, info, onClose }) => {
+  const { campaignName, description, status, DMname, characters, dateStarted, dateEnded } = info || ({} as ICampaign);
+  const location = useHistory();
+
+  console.log(info);
 
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
@@ -57,7 +61,7 @@ const CharacterInfoModal: FC<CharacterInfoModalProps> = ({ isOpen, info, onClose
             </Box>
             <Box>
               <Heading fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}>Players: </Heading>
-              {players ? <Players players={players} /> : 'No Players are playing in this campaign'}
+              {characters ? <Players players={characters} /> : 'No Players are playing in this campaign'}
             </Box>
           </SimpleGrid>
           <Box>
@@ -67,10 +71,19 @@ const CharacterInfoModal: FC<CharacterInfoModalProps> = ({ isOpen, info, onClose
         </ModalBody>
         <ModalFooter as={HStack}>
           <Button onClick={onClose}>Close</Button>
+          <Button
+            variant='forward-btn'
+            onClick={() => {
+              onClose();
+              location.push(`/session/${info?._id}`);
+            }}
+          >
+            Start Session
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
 
-export default CharacterInfoModal;
+export default CampaignInfoModal;

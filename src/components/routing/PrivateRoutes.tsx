@@ -8,11 +8,10 @@ export const PrivateRoutes: FC = () => {
 
   return (
     <Switch>
-      {location.pathname === '/' && <Redirect to='/dashboard' />}
+      {/* {location.pathname === '/' && <Redirect to='/dashboard' />} */}
       <Route exact path='/dashboard' component={Dashboard} />
-      <Route exact path='/session' component={Session} />
-
-      <Redirect to='/dashboard' />
+      <Route path='/session/:id' component={Session} />
+      <Route path='*' component={() => <Redirect to='/dashboard' />} />
     </Switch>
   );
 };

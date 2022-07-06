@@ -47,9 +47,11 @@ const Campaigns: FC<CampaignsProps> = ({ isMobile }) => {
 
   console.log('selected: ', selectedCampaign);
 
+  const auth = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.auth) || ({} as TUser);
 
   const fetchCampaigns = async (): Promise<void> => {
+    setIsLoadingCampaigns(true);
     try {
       const response = await axios.get('/api/campaigns');
       const campaigns = response.data as ICampaign[];
@@ -57,17 +59,14 @@ const Campaigns: FC<CampaignsProps> = ({ isMobile }) => {
       console.log(campaigns);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoadingCampaigns(false);
     }
   };
 
   useEffect(() => {
-    setIsLoadingCampaigns(true);
-    // dispatch loadUsers
-    fetchCampaigns();
-    // dispatch loadCampaigns
-    // loadCampaigns();
-    setIsLoadingCampaigns(false);
-  }, []);
+    if (auth.token) fetchCampaigns();
+  }, [auth]);
 
   const submitCampaign = async (values: FormikValues): Promise<void> => {
     console.log('Submitted: ', values);

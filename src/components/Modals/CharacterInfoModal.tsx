@@ -13,7 +13,7 @@ interface WalletProps {
   };
 }
 
-const Wallet: FC<WalletProps> = ({ wallet }) => {
+export const Wallet: FC<WalletProps> = ({ wallet }) => {
   const walletArray = Object.keys(wallet).map((key: any) => (
     <Text key={key} mr={4}>
       <strong>{getAttributeSnippet(key)}</strong>: {wallet[key as keyof typeof wallet]}
@@ -33,7 +33,7 @@ interface AttributesProps {
   };
 }
 
-const Attributes: FC<AttributesProps> = ({ attributes }) => {
+export const Attributes: FC<AttributesProps> = ({ attributes }) => {
   const attributeArray = Object.keys(attributes).map((key: any) => (
     <Text key={key} mr={4}>
       <strong>{getAttributeSnippet(key)}</strong>: {attributes[key as keyof typeof attributes]}

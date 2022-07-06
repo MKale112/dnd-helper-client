@@ -1,5 +1,5 @@
 import { Wrap, WrapItem } from '@chakra-ui/layout';
-import { Avatar } from '@chakra-ui/react';
+import { Avatar, useMediaQuery } from '@chakra-ui/react';
 import React, { FC } from 'react';
 
 export interface AvatarIconProps {
@@ -7,12 +7,13 @@ export interface AvatarIconProps {
   imgUrl?: string;
 }
 
-const AvatarIcon: FC<AvatarIconProps> = ({ name, imgUrl }) => {
-  const fallbackImg = 'https://bit.ly/broken-link';
+const AvatarIcon: FC<AvatarIconProps> = ({ name, imgUrl = 'https://bit.ly/broken-link' }) => {
+  const isMobile = useMediaQuery('max-width: 750px');
+
   return (
     <Wrap>
       <WrapItem>
-        <Avatar name={name} src={imgUrl ? imgUrl : fallbackImg} size='md' />
+        <Avatar name={name} src={imgUrl} size={isMobile ? 'sm' : 'md'} />
       </WrapItem>
     </Wrap>
   );
